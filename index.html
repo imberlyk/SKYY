@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: url('sky.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #initial-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <img id="initial-img" src="bild.png" alt="Bild">
+
+    <script>
+        let imageCount = 0;
+        const initialImg = document.getElementById('initial-img');
+        const initialSize = 100; 
+        let gridSize = 500; 
+
+        document.addEventListener('mousemove', function(e) {
+            if (imageCount === 0) {
+                
+                initialImg.style.width = '100%';
+                initialImg.style.height = '100%';
+                initialImg.style.top = '0';
+                initialImg.style.left = '0';
+                imageCount++;
+                return;
+            }
+
+            const gridX = Math.floor(e.pageX / gridSize) * gridSize;
+            const gridY = Math.floor(e.pageY / gridSize) * gridSize;
+
+            const img = document.createElement('img');
+            img.src = 'bild.png';
+            img.style.position = 'absolute';
+            img.style.left = gridX + 'px';
+            img.style.top = gridY + 'px';
+            img.style.width = gridSize + 'px';
+            img.style.height = gridSize + 'px';
+            img.style.zIndex = imageCount;
+
+            document.body.appendChild(img);
+
+          
+            if (imageCount < 2) {
+                gridSize -= 100; 
+            } else {
+                gridSize -= 50; 
+            }
+
+           
+            gridSize = Math.max(60, gridSize);
+
+            
+            const newSize = initialSize - imageCount * 50; 
+            initialImg.style.width = newSize + '%';
+            initialImg.style.height = newSize + '%';
+            initialImg.style.top = (100 - newSize) / 5 + '%';
+            initialImg.style.left = (80 - newSize) / 5 + '%';
+
+            imageCount++;
+        });
+    </script>
+</body>
+</html>
